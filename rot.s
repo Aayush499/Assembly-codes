@@ -14,19 +14,19 @@ rotate:
 	
 	leaq     (,%rcx,8),       %r10    # j = i -> j < n - N - i - 1
     leaq    (,%r10,2),           %r10    
-
-    leaq     (%rax,%r10),        %r11
-     xor     %r12,       %r12
+    leaq     (%rdi,%r10),        %r11
+    xor     %r12,       %r12           # this is my j, reset to 0
         .innerLoop:
            
-        movw     (%r11, %r12, 2),     %r13w # r11 = &arr[i][j]
+            movw     (%r11, %r12, 2),     %r13w # this is arr[i][j]
 
-        #     mov     (%r11),              %r12w # r12 = temp = arr[i][j
-           
-		inc     %r12
-        cmpq    $8,     %r12
-        jl      .innerLoop
-		inc	        %rcx
-		cmp	        $8,		%rcx
-		jl	.outerloop
-		ret
+            
+            
+            inc     %r12                        # incrementing j
+            cmpq    $8,     %r12
+            jl      .innerLoop
+            
+        inc	        %rcx                    # incrementing i
+        cmp	        $8,		%rcx
+        jl	.outerloop
+        ret
